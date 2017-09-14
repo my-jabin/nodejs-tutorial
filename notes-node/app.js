@@ -52,23 +52,66 @@ console.log('start app.');
 
 
 //==============part 4============== save date to a json file
-const args = require("yargs").argv;
-const notes = require('./notes');
+// const args = require("yargs").argv;
+// const notes = require('./notes');
+//
+// var command = args._[0];
+// if(command === 'add'){
+//     notes.addNote(args.title,args.body)
+// }else if (command === 'list') {
+//   var allNotes = notes.getAll();
+//   allNotes.forEach( (note) => {
+//     console.log(`title : ${note.title}, body: ${note.body} `);
+//   });
+//
+// }else if (command === 'delete') {
+//   var removed = notes.removeNote(args.title);
+//   console.log( removed ?  'note removed' : 'nothing removed' );
+// }else if (command === 'read') {
+//   var note = notes.readNote(args.title);
+//   if(note){
+//     console.log(`note found:  title = ${note.title} , body=${note.body} ` );
+//   }else {
+//     console.log(`note ${args.title} not found`);
+//   }
+// }else {
+//   console.log("command cannot recognized");
+//   console.log(notes.hasDuplicatedNote('Atom is awosome') );
+// }
 
-var command = args._[0];
-if(command === 'Add'){
-    notes.addNote(args.title,args.body)
-}else if (command === 'List') {
-  notes.getAll();
-}else {
-  console.log("command cannot recognized");
-  console.log(notes.hasDuplicatedNote('Atom is awosome') );
+
+//==============part 5============== Advanced Yargs
+const titleOption = {
+  describe: 'Title of note',
+  demand: true,
+  alias : 't'
+};
+
+const bodyOption = {
+  describe: 'Body of note',
+  demand: true,
+  alias : 'b'
 }
 
+const args = require("yargs")
+  .command( 'add', 'add a new note', {
+    title:titleOption,
+    body:bodyOption
+  })
+  .command( 'list', 'List all notes')
+  .command( 'read', 'Read a note', {
+    title:titleOption
+  })
+  .help()
+  .argv;
 
-
-
-
+  // run followings command to see different result
+  // node app.js --help
+  // node app.js add
+  // node app.js add -t='title'
+  // node app.js add -t='title' -b='body'
+  // node app.js read
+  // node app.js read --title='title'
 
 
 

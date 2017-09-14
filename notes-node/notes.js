@@ -22,37 +22,14 @@ var addNote = (title, body) => {
   // check if file contains duplicated notes.if yes, do nothing, if no, easy append to file
   if (!hasDuplicatedNote(title)) {
     notes.push(note);
-    fs.appendFileSync(fileName, JSON.stringify(notes));
+    saveNotes(notes);
+  }else {
+    console.log(`duplicated Note: title ${note.title} has exists`);
   }
-
-
-
-
-  // fs.access('notes-data.json', 'r', (err, fd) => {
-  //   var appendable = true; // if no duplicated item exists, then append this note
-  //   if (err) {
-  //     if (err.code === 'ENOENT') {
-  //       console.log('notes-data.json does not exist');
-  //       notes.push(note);
-  //     }
-  //   } else {
-  //     var notesString = fs.readFileSync('notes-data.json')
-  //     notes = JSON.parse(notesString);
-  //     var hasDuplicatedNote = notes.filter((note) => notes.title === title);
-  //     if (hasDuplicatedNote) {
-  //       appendable = false;
-  //       console.log('has already exist same note!');
-  //     } else {
-  //       notes.push(note);
-  //     }
-  //   }
-  //   if (appendable)
-  //     fs.appendFileSync('notes-data.json', JSON.stringify(notes));
-  // });
-
 };
 
 var exists = () => {
+  // this is the way how to check if a file exists
   try {
     fs.accessSync(fileName, 'r');
     return true;
@@ -79,11 +56,29 @@ var hasDuplicatedNote = (title) => {
 };
 
 var saveNotes = (notes) => {
-
+  fs.writeFileSync(fileName, JSON.stringify(notes));
+  notes = []; // clear the array
 };
 
 var getAll = () => {
-  console.log('Geting all notes');
+   fetchNotes();
+   return notes;
+}
+
+var removeNote = (title) => {
+  if(notes.length === 0)
+    fetchNotes();
+    // filter the notes that not same as the input title
+   var filterNotes =  notes.filter( (note) => note.title !== title);
+   saveNotes(filterNotes);
+   return notes.length !== filterNotes.length
+}
+
+var readNote = (title) => {
+  if(notes.length === 0)
+    fetchNotes();
+    var filterNotes = notes.filter( (note) => note.title === title );
+    return filterNotes[0];
 }
 
 module.exports = {
@@ -91,5 +86,7 @@ module.exports = {
   getAll,
   exists,
   fetchNotes,
-  hasDuplicatedNote
+  hasDuplicatedNote,
+  removeNote,
+  readNote
 }
