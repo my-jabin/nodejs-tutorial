@@ -5,14 +5,12 @@ var geocodeAddress = (address, callback) => {
     `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}`;
   //console.log(`address: ${googleMapBaseUrl}`);
 
-
   // request(options, callback)
   // options could be a url or an options object. Only required option is uri.
   // detail: https://github.com/request/request#requestoptions-callback
   request({
     url: googleMapBaseUrl,
-    json: true,
-    proxy: 'http://yanbihu:R&Bmusic1005@proxy-sifi.rd.corpintra.net:3128'
+    json: true
   }, (error, response, body) => {
     // error of our program
     if (error) {

@@ -16,19 +16,7 @@ const args = yargs.options({
 const googleMapBaseUrl =
   `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(args.a)}`;
 
-axios.get(googleMapBaseUrl, {
-    //'http://yanbihu:R&Bmusic1005@proxy-sifi.rd.corpintra.net:3128'
-    // proxy not work.
-    proxy: {
-      host: 'proxy-sifi.rd.corpintra.net',
-      port: 3128,
-      auth: {
-        username: 'yanbihu',
-        password: 'R&Bmusic1005'
-      }
-    }
-
-  })
+axios.get(googleMapBaseUrl)
   .then((response) => {
     console.log(response);
   })
