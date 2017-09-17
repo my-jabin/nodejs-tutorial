@@ -15,6 +15,8 @@
 - axios package
 - fetch geocode from google
 
-## 3.Web Serveers and Application deployment
+## 3.web-server
 
+- Web Serveers and Application deployment
 - express
+- hbs (handlebars.js) rendering templates with data

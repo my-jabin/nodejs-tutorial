@@ -18,7 +18,9 @@ const googleMapBaseUrl =
 
 axios.get(googleMapBaseUrl)
   .then((response) => {
-    console.log(response);
+    console.log(response.data);
+    // return axios.get(...)
+    // if we return a net axios.get() method, we have another promise, use then() to chain the request.
   })
   .catch((error) => {
     console.log(error);

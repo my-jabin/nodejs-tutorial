@@ -11,6 +11,11 @@
     "doc_comment": true,
     "complete_strings": {
       "maxLength": 15
+    },
+    "node": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
     }
   }
 }
