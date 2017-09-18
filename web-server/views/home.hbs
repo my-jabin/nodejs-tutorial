@@ -6,10 +6,8 @@
   </head>
 
   <body>
-    <h1>Home page</h1>
-    <p>Welcome to home page: {{username}} </p>
-    <footer>
-      <p>Copyright {{currentYear}}</p>
-    </footer>
+    {{> header}}
+    <p>Welcome to home page: {{toUpperCase username}} </p>  <!-- we need to pass a variable, like here username-->
+{{> footer}}
   </body>
 </html>

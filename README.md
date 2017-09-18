@@ -18,5 +18,7 @@
 ## 3.web-server
 
 - Web Serveers and Application deployment
-- express
+- Express
 - hbs (handlebars.js) rendering templates with data
+- generate SSH key for github
+- heroku
