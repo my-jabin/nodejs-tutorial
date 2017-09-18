@@ -20,5 +20,16 @@
 - Web Serveers and Application deployment
 - Express
 - hbs (handlebars.js) rendering templates with data
-- generate SSH key for github
-- heroku
+- generate SSH key for github(see video)
+- heroku(see video)
+
+## 4.node-tests
+
+- Mocha
+- BDD(behavior drive development)
+
+## 5.MongoDb and RESTful API
+
+- MongoDB
+- RoboMongo
+- data destructuring
