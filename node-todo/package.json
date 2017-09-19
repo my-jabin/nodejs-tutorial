@@ -9,7 +9,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.12"
+  },
+  "devDependencies": {
+    "expect": "^21.1.0",
+    "mocha": "^3.5.3",
+    "supertest": "^3.0.0"
   }
 }

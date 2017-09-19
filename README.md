@@ -34,3 +34,8 @@
 - RoboMongo
 - data destructuring
 - Mongoose ORM
+- postman
+- body-parser
+- expect
+- Mocha
+- supertest
