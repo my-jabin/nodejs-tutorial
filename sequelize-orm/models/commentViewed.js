@@ -21,3 +21,18 @@ const CommentViewed = sequelize.define('commentViewed', {
 CommentViewed.sync();
 
 module.exports = CommentViewed;
+// Comment
+//   .findOrCreate({
+//     where: {
+//       userName: "yanbin"
+//     },
+//     defaults: {
+//       ecu: "ALC213",
+//       errorCode: "B10010",
+//       text: "this is a testing comment"
+//     }
+//   })
+//   .spread((comment, created) => {
+//     console.log(comment);
+//     console.log(`created  :  ${created}`);
+//   });

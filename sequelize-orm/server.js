@@ -24,6 +24,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send({
+    // if get any errors, should show the errorMessage to user and send a report back 
     errorMessage: err.message
   });
 });
