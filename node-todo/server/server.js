@@ -18,6 +18,10 @@ var {
   ObjectID
 } = require("mongodb");
 
+var {
+  authenticate
+} = require("./middleware/authenticate")
+
 var app = express();
 
 //Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
@@ -127,6 +131,28 @@ app.patch("/todos/:id", (req, res) => {
 })
 
 
+// POST /users
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
+
+  user.save().then(() => {
+    return user.generateAuthToken();
+  }).then((token) => {
+    // append the specified value to the HTTP response header field
+    res.append('x-auth', token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
+  })
+});
+
+var r1 = express.Router();
+r1.get("/user/me", authenticate);
+app.use(r1);
+
+app.get("/user/me", (req, res) => {
+  res.send(req.user);
+});
 
 app.listen(8888, () => {
   console.log(`Start on port 8888`);
