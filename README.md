@@ -28,7 +28,7 @@
 - Mocha
 - BDD(behavior drive development)
 
-## 5.MongoDb and RESTful API
+## 5.node-todo(MongoDb and RESTful API)
 
 - MongoDB
 - RoboMongo
@@ -39,3 +39,7 @@
 - expect
 - Mocha
 - supertest
+- authenticate
+- validator
+- jsonwebtoken
+- bcryptjs

@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 const _ = require("lodash");
-
+require('./config/config');
 var {
   mongoose
 } = require('./db/mongoose')
@@ -131,8 +131,8 @@ app.patch("/todos/:id", (req, res) => {
 })
 
 
-// POST /users
-app.post('/users', (req, res) => {
+// POST /user
+app.post('/user', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
 
@@ -146,6 +146,12 @@ app.post('/users', (req, res) => {
   })
 });
 
+app.get("/user", (req, res) => {
+  User.find().then((users) => {
+    res.send(users)
+  })
+})
+
 var r1 = express.Router();
 r1.get("/user/me", authenticate);
 app.use(r1);
@@ -154,8 +160,41 @@ app.get("/user/me", (req, res) => {
   res.send(req.user);
 });
 
-app.listen(8888, () => {
-  console.log(`Start on port 8888`);
+
+// POST: /user/login {email, password}
+app.post("/user/login", (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  User.findByCredentials(body.email, body.password).then((user) => {
+    // now here we need to generate an auth token
+    user.generateAuthToken().then((token) => {
+      // send the token and user object to client
+      res.append('x-auth', token).send(user);
+    })
+  }).catch((e) => {
+    res.status(400).send(e)
+  });
+})
+
+// router for deleting token
+var r2 = express.Router();
+r2.delete("/user/me/token", authenticate);
+app.use(r2);
+
+app.delete('/user/me/token', (req, res) => {
+  // just remove token, handle success and failed situation
+
+  req.user
+    .removeToken(req.token)
+    .then(() => {
+      res.send();
+    })
+    .catch((e) => {
+      res.status(400).send(e)
+    })
+})
+
+app.listen(process.env.PORT, () => {
+  console.log(`Start on port ${process.env.PORT}`);
 })
 
 // for testing purpose

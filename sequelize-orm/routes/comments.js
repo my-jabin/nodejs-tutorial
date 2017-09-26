@@ -11,6 +11,7 @@ var codeEnum = require("./../utils/enum");
 //http: //localhost:8888/comments?ecu=xxx&errorcode=xxx
 
 router.get("/", (req, res) => {
+  // TODO: use lodash to pick paramaters
   var ecu = req.query.ecu;
   var errorcode = req.query.errorcode;
 

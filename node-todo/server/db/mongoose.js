@@ -1,7 +1,7 @@
 var Mongoose = require('mongoose');
 
 Mongoose.Promise = global.Promise;
-Mongoose.connect('mongodb://localhost:27017/TodoApp', {
+Mongoose.connect(process.env.MONGODB_URI, {
   useMongoClient: true // add this options your mongoose > 4.11.0
 });
 
