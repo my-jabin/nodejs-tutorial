@@ -43,3 +43,9 @@
 - validator
 - jsonwebtoken
 - bcryptjs
+
+
+## 6.chat-app
+- socket.io
+- material Design Lite
+- geolocation
