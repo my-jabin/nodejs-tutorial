@@ -17,7 +17,7 @@ const port = process.env.npm_package_config_port || 8888;
 app.use(express.static(publicPath))
 
 app.get('/', function(req, res) {
-  res.sendFile(publicPath + '/index.html');
+  res.sendFile(publicPath + '/index2.html');
 });
 
 // if a socket connects to the server
