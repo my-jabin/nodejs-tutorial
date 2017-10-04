@@ -1,0 +1,6 @@
+<li class="mdl-list__item">
+  <span class="mdl-list__item-primary-content">
+    <i class="material-icons mdl-list__item-icon">'person'</i>
+    {{from}}: <a style="margin:8px" target='_blank' href={{url}}>My Current Location</a>  ({{formatTime}})
+  </span>
+</li>

@@ -10,26 +10,20 @@
   <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
   <link rel="stylesheet" href="./css/style.css">
 
-<style>
-  foot-sticker{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    width: 500px;
-  }
-</style>
+  <style>
+    foot-sticker {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 500px;
+    }
+  </style>
 
 </head>
 <title>First Page</title>
 </head>
 
 <body>
-  <!-- must be before </body> -->
-  <script src="/socket.io/socket.io.js" type="text/javascript"></script>
-  <script src="/js/index.js"></script>
-  <!-- must be before </body> -->
-
-
   <!-- layout: https://getmdl.io/components/index.html#layout-section -->
   <div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
     <header class="mdl-layout__header">
@@ -61,7 +55,7 @@
         <div class="foot-sticker">
           <form id="message-form" method="get">
             <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="message">
+              <input class="mdl-textfield__input" type="text" id="message" autofocus autocomplete="on">
               <label class="mdl-textfield__label" for="message">Message</label>
             </div>
             <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">send</button>
@@ -77,7 +71,12 @@
 
 
 
-
+  <!-- must be before </body> -->
+  <script src="/socket.io/socket.io.js" type="text/javascript"></script>
+  <script src="/js/index.js"></script>
+  <script src="/js/moment.min.js"></script>
+  <script src="/js/mustache.min.js"></script>
+  <!-- must be before </body> -->
 </body>
 
 </html>

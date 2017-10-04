@@ -28,15 +28,15 @@ socket.on("newEmail", function(email) {
 
 
 socket.on("newMessage", (message) => {
-  var li = $("<li class=mdl-list__item></li>");
-  var span = $("<span class=mdl-list__item-primary-content></span>");
-  var i = $("<i class='material-icons mdl-list__item-icon'>'person'</i>")
-  i.class = "material-icons mdl-list__item-icon"
-  //Inserts content at the end of the selected elements
-  span.append(i);
-  span.append(`${message.from}: ${message.text}`)
-  li.append(span);
-  $("#messages").append(li);
+  var formatTime = moment(message.createdAt).format("h:mm a");
+  $.get("./template/message.mst", function(template) {
+    var rendered = Mustache.render(template, {
+      from: message.from,
+      text: message.text,
+      formatTime: formatTime
+    });
+    $('#messages').append(rendered);
+  });
 })
 
 socket.emit("createMessage", {
@@ -48,17 +48,28 @@ socket.emit("createMessage", {
 })
 
 socket.on("newLocationMessage", (locations) => {
-  var li = $("<li class=mdl-list__item></li>");
-  var span = $("<span class=mdl-list__item-primary-content></span>");
-  var i = $("<i class='material-icons mdl-list__item-icon'>'person'</i>")
-  var link = $(`<a target='_blank'>My Current Location</a>`)
-  link.attr('href', locations.url)
-  link.css("margin", "8px")
-  span.append(i);
-  span.append(`${locations.from}:  `)
-  span.append(link)
-  li.append(span);
-  $("#messages").append(li);
+  var formatTime = moment(locations.createdAt).format("h:mm a");
+  $.get("./template/location-message.mst", function(template) {
+    var rendered = Mustache.render(template, {
+      from: locations.from,
+      url: locations.url,
+      formatTime: formatTime
+    });
+    $('#messages').append(rendered);
+  });
+
+  // var li = $("<li class=mdl-list__item></li>");
+  // var span = $("<span class=mdl-list__item-primary-content></span>");
+  // var i = $("<i class='material-icons mdl-list__item-icon'>'person'</i>")
+  // var link = $(`<a target='_blank'>My Current Location</a>`)
+  // link.attr('href', locations.url)
+  // link.css("margin", "8px")
+  // span.append(i);
+  // span.append(`${locations.from}:  `)
+  // span.append(link)
+  // span.append(`  (${moment(message.createdAt).format("h:mm a")}) `)
+  // li.append(span);
+  // $("#messages").append(li);
 })
 
 
@@ -71,6 +82,7 @@ $(function() {
       text: $("#message").val()
     }, function(result, data) {
       //console.log(`Did I successful send: ${result}, data: ${data}`);
+      $("#message").val('')
     })
   })
 
@@ -78,10 +90,12 @@ $(function() {
     if (!navigator.geolocation) {
       return alert("geolocation not supported by your browser")
     }
+    $("#locationButton").attr("disabled", "disabled");
     navigator.geolocation.getCurrentPosition((position) => {
+      $("#locationButton").removeAttr("disabled");
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
-      alert(`position: ${latitude},${longitude} `)
+      //alert(`position: ${latitude},${longitude} `)
 
       socket.emit("createLocationMessage", {
         latitude,
@@ -89,6 +103,7 @@ $(function() {
       })
 
     }, () => {
+      $("#locationButton").removeAttr("disabled");
       alert(`cannot get location. Error.`)
     })
   })
