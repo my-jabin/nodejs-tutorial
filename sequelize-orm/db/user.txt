@@ -1,0 +1,5 @@
+http://localhost:8888/user/register?username=Yanbin&password=Yanbin
+
+http://localhost:8888/user/register?username=Thomas&password=Thomas
+
+http://localhost:8888/user/register?username=Robot&password=Robot

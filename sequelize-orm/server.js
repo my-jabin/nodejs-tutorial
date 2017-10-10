@@ -3,14 +3,22 @@ const bodyParser = require('body-parser');
 
 var comments = require("./routes/comments");
 var CommentViewed = require("./routes/commentsViewed");
+var user = require("./routes/user");
+var timeout = require('connect-timeout')
 
 var app = express();
 
+app.use(timeout('5s'))
+
 app.use(bodyParser.json());
+
+app.use(haltOnTimedout)
 
 app.use("/comments", comments);
 
 app.use("/CommentViewed", CommentViewed);
+
+app.use("/user", user);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -24,11 +32,20 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.send({
-    // if get any errors, should show the errorMessage to user and send a report back 
+    // if get any errors, should show the errorMessage to user and send a report back
     errorMessage: err.message
   });
 });
 
-app.listen(8888, () => {
+
+function haltOnTimedout(req, res, next) {
+  if (!req.timedout) {
+    next()
+  } else {
+    console.log("connection time out");
+  }
+}
+
+var server = app.listen(8888, () => {
   console.log(`Start on port 8888`);
 })

@@ -9,7 +9,9 @@ var codeEnum = new Enum({
   "COMMENT_FOUND": "Comment found.",
   "SUCCESS": "Success.",
   "ERROR": "Error occurs.",
-  "COMMENT_VIEWED_UPDATED": "Total viewed updated."
+  "COMMENT_VIEWED_UPDATED": "Total viewed updated.",
+  "COMMENTS_TOTAL_LIKED": "The number of times that users like thess comments has been calculated.",
+  "COMMENTS_TOTAL_COUNT": "Amount of comments."
 });
 
 //console.log(codeEnum.get("1").key);

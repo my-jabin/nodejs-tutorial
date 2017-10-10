@@ -9,9 +9,7 @@ var codeEnum = require("./../utils/enum");
 // 422 : bad request URL(missing paramaters)
 
 //http: //localhost:8888/comments?ecu=xxx&errorcode=xxx
-
 router.get("/", (req, res) => {
-  // TODO: use lodash to pick paramaters
   var ecu = req.query.ecu;
   var errorcode = req.query.errorcode;
 
@@ -61,7 +59,6 @@ router.get("/", (req, res) => {
         message: e.errors[0].message
       });
     })
-
 })
 
 // search a comment with specified ID, not allow to search all comments
@@ -96,7 +93,7 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   Comment.create({
     ecu: req.body.ecu,
-    errorCode: req.body.errorCode,
+    errorCode: req.body.errorcode,
     text: req.body.text,
     userName: req.body.userName
   }).then((comment) => {
@@ -153,5 +150,75 @@ router.delete("/:id?", (req, res) => {
     });
   }
 })
+
+// http://localhost:port/comments/query/liked?ecu=xxx&errorcode=xxx
+router.get("/query/liked", (req, res) => {
+  var ecu = req.query.ecu;
+  var errorcode = req.query.errorcode;
+
+  var condition = {};
+  condition.ecu = ecu;
+  condition.errorcode = errorcode;
+
+  // if paramaters is missing, send error back
+  if (!ecu && !errorcode) {
+    return utils.sendCommentResponse(res, {
+      httpStatus: 422,
+      code: codeEnum.get("MISSING_ECU_ERRORCODE_ID").key,
+      message: codeEnum.get("MISSING_ECU_ERRORCODE_ID").value
+    })
+  }
+
+  Comment.sum("like", {
+    where: condition
+  }).then((liked) => {
+    utils.sendCommentResponse(res, {
+      code: codeEnum.get("COMMENTS_TOTAL_LIKED").key,
+      message: codeEnum.get("COMMENTS_TOTAL_LIKED").value,
+      liked: liked ? liked : 0
+    });
+  }).catch((e) => {
+    utils.sendCommentResponse(res, {
+      httpStatus: 400,
+      code: codeEnum.get("ERROR").key,
+      message: e.errors[0].message
+    });
+  });
+});
+
+// http://localhost:port/comments/query/count?ecu=xxx&errorcode=xxx
+router.get("/query/count", (req, res) => {
+  var ecu = req.query.ecu;
+  var errorcode = req.query.errorcode;
+
+  var condition = {};
+  condition.ecu = ecu;
+  condition.errorcode = errorcode;
+
+  // if paramaters is missing, send error back
+  if (!ecu && !errorcode) {
+    return utils.sendCommentResponse(res, {
+      httpStatus: 422,
+      code: codeEnum.get("MISSING_ECU_ERRORCODE_ID").key,
+      message: codeEnum.get("MISSING_ECU_ERRORCODE_ID").value
+    })
+  }
+
+  Comment.count({
+    where: condition
+  }).then((count) => {
+    utils.sendCommentResponse(res, {
+      code: codeEnum.get("COMMENTS_TOTAL_COUNT").key,
+      message: codeEnum.get("COMMENTS_TOTAL_COUNT").value,
+      count: count ? count : 0
+    });
+  }).catch((e) => {
+    utils.sendCommentResponse(res, {
+      httpStatus: 400,
+      code: codeEnum.get("ERROR").key,
+      message: e.errors[0].message
+    });
+  });
+});
 
 module.exports = router;

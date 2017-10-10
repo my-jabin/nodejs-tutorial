@@ -32,7 +32,6 @@ router.get("/", (req, res) => {
       message: e.errors[0].message
     })
   });
-
 });
 
 router.put("/", (req, res) => {
