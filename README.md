@@ -50,3 +50,7 @@
 - material Design Lite
 - geolocation
 - moment
+- jest (testing)
+
+## 7.async-await
+- async and await
