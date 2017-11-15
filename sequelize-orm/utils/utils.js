@@ -1,6 +1,7 @@
 var Options = require("options")
 var codeEnum = require("./../utils/enum");
 
+
 var baseOptions = {
   httpStatus: 200,
   code: codeEnum.get("SUCCESS").key,
@@ -66,7 +67,40 @@ var sendCommentViewedResponse = (res, options) => {
   res.status(opts.value.httpStatus).send(data);
 }
 
+var sendUserLikedResponse = (res, options) => {
+  var defaultOptions = baseOptions;
+  defaultOptions.username = "";
+  defaultOptions.commentid = "";
+  defaultOptions.like = false;
+
+  console.log(options);
+  var opts = new Options(defaultOptions);
+  opts = opts.merge(options);
+
+  var data = {
+    httpStatus: opts.value.httpStatus,
+    message: opts.value.message,
+    code: opts.value.code,
+    username: opts.value.username,
+    commentid: opts.value.commentid,
+    like: opts.value.like
+  }
+
+  res.status(opts.value.httpStatus).send(data);
+}
+
+var sendErrorResponse = (res, e) => {
+  var data = {
+    httpStatus: 400,
+    message: e.message,
+    code: codeEnum.get("ERROR").value
+  }
+  res.status(data.httpStatus).send(data);
+}
+
 module.exports = {
   sendCommentResponse,
-  sendCommentViewedResponse
+  sendCommentViewedResponse,
+  sendErrorResponse,
+  sendUserLikedResponse
 }

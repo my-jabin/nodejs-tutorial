@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 var comments = require("./routes/comments");
 var CommentViewed = require("./routes/commentsViewed");
 var user = require("./routes/user");
+var userLiked = require("./routes/userLiked");
 var timeout = require('connect-timeout')
 
 var app = express();
@@ -19,6 +20,8 @@ app.use("/comments", comments);
 app.use("/CommentViewed", CommentViewed);
 
 app.use("/user", user);
+
+app.use("/like", userLiked);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

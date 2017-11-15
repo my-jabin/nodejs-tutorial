@@ -3,6 +3,15 @@ var express = require('express');
 var router = express.Router();
 var utils = require("./../utils/utils");
 var codeEnum = require("./../utils/enum");
+const {
+  check,
+  body,
+  validationResult
+} = require('express-validator/check');
+const {
+  matchedData
+} = require('express-validator/filter');
+
 
 // 400 : not Found
 // 400 : bad request
@@ -89,13 +98,80 @@ router.get("/:id", (req, res) => {
   });
 });
 
+// put: update a comment
+// http://localhost:8888/comments/10c4be20-9f87-11e7-916d-c5adb2fa4c81
+// body: ecu,errorcode,text,username,like
+router.put("/:id", [
+  body('ecu', 'ECU is missing').exists(),
+  body('errorcode', 'ErrorCode is missing').exists(),
+  body('text', 'Text is missing').exists(),
+  body('username', 'UserName is missing').exists(),
+  body('like', 'Like is missing').exists()
+], (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return utils.sendCommentResponse(res, {
+      httpStatus: 422,
+      code: codeEnum.get("MISSING_PARAMETERS").key,
+      message: errors.array({
+        onlyFirstError: true
+      })[0].msg
+    });
+  }
+
+  const comment = matchedData(req);
+  var commentID = req.params.id
+
+  Comment.update({
+      ecu: comment.ecu,
+      errorCode: comment.errorcode,
+      text: comment.text,
+      like: comment.like,
+      userName: comment.username
+    }, {
+      where: {
+        commentID
+      }
+    }).then((affectedCount) => {
+      if (affectedCount <= 0) {
+        utils.sendCommentResponse(res, {
+          httpStatus: 404,
+          code: codeEnum.get("COMMENT_NOT_FOUND").key,
+          message: codeEnum.get("COMMENT_NOT_FOUND").value
+        });
+      } else {
+        utils.sendCommentResponse(res, {
+          code: codeEnum.get("COMMENT_UPDATED").key,
+          message: codeEnum.get("COMMENT_UPDATED").value
+        });
+      }
+    })
+    // .then((comment) => {
+    //   console.log("heheheh");
+    //   var comments = [];
+    //   comments.push(comment);
+    //   utils.sendCommentResponse(res, {
+    //     code: codeEnum.get("COMMENT_UPDATED").key,
+    //     message: codeEnum.get("COMMENT_UPDATED").value,
+    //     comments: comments
+    //   });
+    // })
+    .catch((e) => {
+      utils.sendCommentResponse(res, {
+        httpStatus: 400,
+        code: codeEnum.get("ERROR").key,
+        message: e.message
+      });
+    })
+});
+
 // create a comment, not allow specified an ID
 router.post("/", (req, res) => {
   Comment.create({
     ecu: req.body.ecu,
     errorCode: req.body.errorcode,
     text: req.body.text,
-    userName: req.body.userName
+    userName: req.body.username
   }).then((comment) => {
     var comments = [];
     comments.push(comment);
