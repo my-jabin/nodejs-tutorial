@@ -9,7 +9,9 @@
   "author": "Yanbin",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.4",
+    "chalk": "^4.0.0",
+    "lodash": "^4.17.15",
+    "validator": "^13.0.0",
     "yargs": "^8.0.2"
   }
 }

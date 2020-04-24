@@ -3,14 +3,12 @@ console.log('starting notes.js');
 
 const fs = require('fs');
 const fileName = 'notes-data.json'
-// export an variable
-// module.exports.age = 18;
-//
-// exports.add = (a, b) => {
-//   return a + b;
-// };
 
-var notes = [] ;
+
+
+var age = 18
+
+var notes = [];
 
 var addNote = (title, body) => {
   fetchNotes();
@@ -23,7 +21,7 @@ var addNote = (title, body) => {
   if (!hasDuplicatedNote(title)) {
     notes.push(note);
     saveNotes(notes);
-  }else {
+  } else {
     console.log(`duplicated Note: title ${note.title} has exists`);
   }
 };
@@ -49,9 +47,9 @@ var fetchNotes = () => {
 };
 
 var hasDuplicatedNote = (title) => {
-  if(notes.length === 0 )
+  if (notes.length === 0)
     fetchNotes();
-  var duplicatedNumber = notes.filter((note) => note.title === title );
+  var duplicatedNumber = notes.filter((note) => note.title === title);
   return duplicatedNumber.length > 0;
 };
 
@@ -61,27 +59,28 @@ var saveNotes = (notes) => {
 };
 
 var getAll = () => {
-   fetchNotes();
-   return notes;
+  fetchNotes();
+  return notes;
 }
 
 var removeNote = (title) => {
-  if(notes.length === 0)
+  if (notes.length === 0)
     fetchNotes();
-    // filter the notes that not same as the input title
-   var filterNotes =  notes.filter( (note) => note.title !== title);
-   saveNotes(filterNotes);
-   return notes.length !== filterNotes.length
+  // filter the notes that not same as the input title
+  var filterNotes = notes.filter((note) => note.title !== title);
+  saveNotes(filterNotes);
+  return notes.length !== filterNotes.length
 }
 
 var readNote = (title) => {
-  if(notes.length === 0)
+  if (notes.length === 0)
     fetchNotes();
-    var filterNotes = notes.filter( (note) => note.title === title );
-    return filterNotes[0];
+  var filterNotes = notes.filter((note) => note.title === title);
+  return filterNotes[0];
 }
 
 module.exports = {
+  age,
   addNote, // is same as addOneNote:addOneNote
   getAll,
   exists,
