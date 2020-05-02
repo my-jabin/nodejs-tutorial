@@ -2,7 +2,7 @@ console.log('starting notes.js');
 
 
 const fs = require('fs');
-const fileName = 'notes-data.json'
+const FILENAME = 'notes-data.json'
 
 
 
@@ -10,6 +10,7 @@ var age = 18
 
 var notes = [];
 
+// this is a function takes two parameters: title and body
 var addNote = (title, body) => {
   fetchNotes();
   var note = {
@@ -26,10 +27,11 @@ var addNote = (title, body) => {
   }
 };
 
+// this function takes no parameter but return a boolean value
 var exists = () => {
   // this is the way how to check if a file exists
   try {
-    fs.accessSync(fileName, 'r');
+    fs.accessSync(FILENAME, 'r');
     return true;
   } catch (e) {
     if (e.code === 'ENOENT') {
@@ -41,7 +43,7 @@ var exists = () => {
 
 var fetchNotes = () => {
   if (exists()) {
-    var notesString = fs.readFileSync(fileName)
+    var notesString = fs.readFileSync(FILENAME)
     notes = JSON.parse(notesString);
   }
 };
@@ -49,12 +51,12 @@ var fetchNotes = () => {
 var hasDuplicatedNote = (title) => {
   if (notes.length === 0)
     fetchNotes();
-  var duplicatedNumber = notes.filter((note) => note.title === title);
-  return duplicatedNumber.length > 0;
+
+  return notes.find((note) => note.title === title) !== undefined
 };
 
 var saveNotes = (notes) => {
-  fs.writeFileSync(fileName, JSON.stringify(notes));
+  fs.writeFileSync(FILENAME, JSON.stringify(notes));
   notes = []; // clear the array
 };
 
@@ -67,7 +69,7 @@ var removeNote = (title) => {
   if (notes.length === 0)
     fetchNotes();
   // filter the notes that not same as the input title
-  var filterNotes = notes.filter((note) => note.title !== title);
+  var filterNotes = notes.filter((note) => note.title.toString().toUpperCase() !== title.toUpperCase());
   saveNotes(filterNotes);
   return notes.length !== filterNotes.length
 }

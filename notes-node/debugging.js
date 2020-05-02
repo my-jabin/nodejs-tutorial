@@ -22,3 +22,5 @@ console.log(person);
 // to debug on chorme, run:
 // node --inspect-brk debugging.js  or
 // nodemon --inspect-brk debugging.js
+
+// A more detail on how to debug program using Visual Studio Code in the https://code.visualstudio.com/docs/editor/debugging
