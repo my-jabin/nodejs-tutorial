@@ -1,44 +1,43 @@
-const request = require('request');
+const request = require("request");
+
+// this is a geocoding with mapbox(https://www.mapbox.com/). For geocoding with google map please check out commits fews year ago.
+
+const token =
+  "pk.eyJ1IjoiaHlieGlhb2RhbyIsImEiOiJjazlyNG16bGwwcXBrM2RxY2J1ZXNqeW9mIn0.ykIlC3EO432NZnE3MElwPA";
+const baseUrl = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
 var geocodeAddress = (address, callback) => {
-  const googleMapBaseUrl =
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}`;
-  //console.log(`address: ${googleMapBaseUrl}`);
+  let url = `${baseUrl}+${address}.json?access_token=${token}&limit=1`;
+  console.log(`url: ${url}`);
 
   // request(options, callback)
   // options could be a url or an options object. Only required option is uri.
   // detail: https://github.com/request/request#requestoptions-callback
-  request({
-    url: googleMapBaseUrl,
-    json: true
-  }, (error, response, body) => {
-    // error of our program
-    if (error) {
-      //console.log(JSON.stringify(error, undefined, 2));
-      callback('no connection to server');
+  request(
+    {
+      url, // url:url, because the name is identically, just use url for short
+      json: true, // data is parsed automattically to JSON object
+    },
+    // this is a callback function
+    (error, response, body) => {
+      // error of our program
+      if (error) {
+        //console.log(JSON.stringify(error, undefined, 2));
+        callback("no connection to server");
+      } else if (body.features.length === 0) {
+        callback("unable to get location");
+      } else {
+        // console.log(body.features[0]);
+        let latitude = body.features[0].center[1];
+        let longtitude = body.features[0].center[0];
+        console.log(`${latitude},${longtitude}`);
+
+        callback(undefined, { latitude: latitude, longtitude: longtitude, location: body.features[0].place_name });
+      }
     }
-    // print the HTTP response include headers, method
-    //  console.log(JSON.stringify(response,undefined,2));
-
-    // JSON.stringify(value[,replacer[,space]]): converts value to JSON string,
-    // replaceing values if a replacer function is specified and space that for formating purpose
-    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
-    //console.log(JSON.stringify(body,undefined,2));  // just for formatting json object
-
-    // error of google map server
-    else if (body.status === 'ZERO_RESULTS') {
-      callback('no address found');
-    } else if (body.status === 'OK') {
-      callback(undefined, {
-        address: body.results[0].formatted_address,
-        latitude: body.results[0].geometry.location.lat,
-        longitude: body.results[0].geometry.location.lng
-      });
-    }
-  });
-
-}
+  );
+};
 
 module.exports = {
-  geocodeAddress
-}
+  geocodeAddress,
+};
