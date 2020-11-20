@@ -22,6 +22,7 @@
 - hbs (handlebars.js) rendering templates with data
 - generate SSH key for github(see video)
 - heroku(see video)
+- promises
 
 ## 4.node-tests
 
@@ -44,8 +45,8 @@
 - jsonwebtoken
 - bcryptjs
 
-
 ## 6.chat-app
+
 - socket.io
 - material Design Lite
 - geolocation
@@ -53,4 +54,19 @@
 - jest (testing)
 
 ## 7.async-await
+
 - async and await
+
+## 8. task-manager
+
+- MongoDB
+- Promises
+- Mongoose
+- Promise chaining
+- async, await
+- Unit test
+- Jest
+- nock
+- request
+- request-promise
+- bcryptjs
