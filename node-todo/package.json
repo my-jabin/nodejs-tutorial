@@ -16,7 +16,7 @@
     "lodash": "^4.17.4",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.12",
-    "validator": "^8.2.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "expect": "^21.1.0",
